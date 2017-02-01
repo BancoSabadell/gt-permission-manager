@@ -102,7 +102,7 @@ contract PermissionManager {
   function allowInteraction(uint rol1, uint rol2, uint interaction) {
     isIdentityManager(msg.sender);
 
-    _relationships[rol2][rol2][interaction] = true;
+    _relationships[rol1][rol2][interaction] = true;
 
     ev_Interaction(rol1, rol2, interaction, true);
   }
@@ -110,7 +110,7 @@ contract PermissionManager {
   function disallowInteraction(uint rol1, uint rol2, uint interaction) {
     isIdentityManager(msg.sender);
 
-    _relationships[rol2][rol2][interaction] = false;
+    _relationships[rol1][rol2][interaction] = false;
 
     ev_Interaction(rol1, rol2, interaction, false);
   }
