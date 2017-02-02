@@ -5,7 +5,6 @@ contract PermissionManager {
   uint public _numRols;
 
   // Which rol can perform the following actions
-  // TODO: Add rol to create interactions (instead of admin)
 
   mapping(uint => bool) public _networkAdmin; // Admins can do everything. Only 1 by default
   mapping(uint => bool) public _identityManager; // Create roles and assign identities
@@ -165,13 +164,29 @@ contract PermissionManager {
     ev_ReputationProvider(rol, false);
   }
 
-  function getRelationship(address a1, address a2, uint rel) constant returns(bool) {
+  function getRelationship(address id1, address id2, uint rel) constant returns(bool) {
 
-    return _relationships[_rol[a1]][_rol[a2]][rel];
+    return _relationships[_rol[id1]][_rol[id2]][rel];
   }
 
-  function getRol(address a) constant returns(uint) {
+  function getRol(address id) constant returns(uint) {
 
-    return _rol[a];
+    return _rol[id];
+  }
+
+  function getNumRoles() constant returns(uint) {
+      return _numRols;
+  }
+
+  function getNetworkAdmin(uint rol) constant returns(bool) {
+      return _networkAdmin[rol];
+  }
+
+  function getIdentityManager(uint rol) constant returns(bool) {
+      return _identityManager[rol];
+  }
+
+  function getReputationProvider(uint rol) constant returns(bool) {
+      return _reputationProvider[rol];
   }
 }
