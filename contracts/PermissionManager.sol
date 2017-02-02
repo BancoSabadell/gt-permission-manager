@@ -169,4 +169,9 @@ contract PermissionManager {
 
     return _relationships[_rol[a1]][_rol[a2]][rel];
   }
+
+  function getRol(address a) constant returns(uint) {
+
+    return _rol[a];
+  }
 }
