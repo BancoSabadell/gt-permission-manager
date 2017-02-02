@@ -26,6 +26,9 @@ Promise.promisifyAll(web3.personal);
 describe('PermissionManager contract', function () {
     let permissionManager = null;
     const admin = '0x5bd47e61fbbf9c8b70372b6f14b068fddbd834ac';
+    const account2 = '0x25e940685e0999d4aa7bd629d739c6a04e625761';
+    //const merchant = '0x6128333118cef876bd620da1efa464437470298d';
+    //const spender = '0x93e17017217881d157a47c6ed6d7ae4c8d7ed2bf';
 
     before(function() {
         this.timeout(60000);
@@ -33,9 +36,78 @@ describe('PermissionManager contract', function () {
             .then(contract => permissionManager = contract);
     });
 
-    describe('check deployment', () => {
-        it('call create rol', () => {
+    describe('check roles as admin', () => {
+
+        it('check rol 0', () => {
+            return permissionManager.getRolAsync(account2)
+                .should.eventually.satisfy(role => role.equals(new BigNumber(0)), `rol should be 0`);
+        });
+
+        it('create role 2', () => {
             return permissionManager.createRolAsync({from: admin, gas: gas});
         });
+
+        it('set rol 2', () => {
+            return permissionManager.setRolAsync(account2, 2, {from: admin, gas: gas});
+        });
+
+        it('check rol 2', () => {
+            return permissionManager.getRolAsync(account2)
+                .should.eventually.satisfy(role => role.equals(new BigNumber(2)), `rol should be 2`);
+        });
+
+        it('create and set rol 3', () => {
+            return permissionManager.createAndSetRolAsync(account2, {from: admin, gas: gas});
+        });
+
+        it('check rol 3', () => {
+            return permissionManager.getRolAsync(account2)
+                .should.eventually.satisfy(role => role.equals(new BigNumber(3)), `rol should be 3`);
+        });
+
+        it('remove rol', () => {
+            return permissionManager.removeRolAsync(account2, {from: admin, gas: gas});
+        });
+
+        it('check rol', () => {
+            return permissionManager.getRolAsync(account2)
+                .should.eventually.satisfy(role => role.equals(new BigNumber(0)), `rol should be 0`);
+        });
     });
+
+    describe('check interactions as admin', () => {
+        it('check rol 0', () => {
+            return permissionManager.getRolAsync(account2)
+                .should.eventually.satisfy(role => role.equals(new BigNumber(0)), `rol should be 0`);
+        });
+
+        it('check rol 1 (admin)', () => {
+            return permissionManager.getRolAsync(admin)
+                .should.eventually.satisfy(role => role.equals(new BigNumber(1)), `rol should be 1`);
+        });
+
+        it('check relationship 0 from 0 to 1', () => {
+            return permissionManager.getRelationshipAsync(account2, admin, 0)
+                .should.eventually.equals(false);
+        });
+
+        it('create relationship 0 from 0 to 1', () => {
+            return permissionManager.allowInteractionAsync(0, 1, 0, {from: admin, gas: gas});
+        });
+
+        it('check relationship 0 from 0 to 1', () => {
+            return permissionManager.getRelationshipAsync(account2, admin, 0)
+                .should.eventually.equals(true);
+        });
+
+        it('Remove relationship 0 from 0 to 1', () => {
+            return permissionManager.disallowInteractionAsync(0, 1, 0, {from: admin, gas: gas});
+        });
+
+        it('check relationship 0 from 0 to 1', () => {
+            return permissionManager.getRelationshipAsync(account2, admin, 0)
+                .should.eventually.equals(false);
+        });
+    });
+
 });
