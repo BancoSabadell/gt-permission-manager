@@ -12,3 +12,5 @@ exports.deployedContract = function (web3, admin, gas) {
     const deployer = new Deployer(web3, {sources: exports.contracts}, 0);
     return deployer.deploy('PermissionManager', [], { from: admin, gas: gas });
 };
+
+
