@@ -1,6 +1,6 @@
 # gt-permission-manager
 
-### A contract to manage relationships and permissions of other contracts.
+A contract to manage relationships and permissions of other contracts.
 
 ## Installation
 ```bash
