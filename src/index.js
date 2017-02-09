@@ -5,9 +5,9 @@ const fs = require('fs');
 const path = require('path');
 const Promise = require('bluebird');
 
-exports.contracts = {
+exports.contracts = Object.freeze({
     'PermissionManager.sol': fs.readFileSync(path.join(__dirname, '../contracts/PermissionManager.sol'), 'utf8')
-};
+});
 
 exports.deployContract = function (web3, admin, gas) {
     const deployer = new Deployer(web3, {sources: exports.contracts}, 0);
