@@ -36,15 +36,14 @@ Promise.promisifyAll(web3.eth);
 Promise.promisifyAll(web3.personal);
 
 describe('PermissionManager contract', function () {
-    let permissionManager = null;
+    let permissionManager;
     const admin = '0x5bd47e61fbbf9c8b70372b6f14b068fddbd834ac';
     const account2 = '0x25e940685e0999d4aa7bd629d739c6a04e625761';
     const identityManager = '0x6128333118cef876bd620da1efa464437470298d';
-    //const spender = '0x93e17017217881d157a47c6ed6d7ae4c8d7ed2bf';
 
     before(function() {
         this.timeout(60000);
-        return GtPermissionManager.deployedContract(web3, admin, gas)
+        return GtPermissionManager.deployContract(web3, admin, gas)
             .then(contract => permissionManager = contract);
     });
 
