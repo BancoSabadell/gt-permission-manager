@@ -16,7 +16,6 @@ const provider = TestRPC.provider({
     }]
 });
 
-const assert = chai.assert;
 const web3 = new Web3(provider);
 chai.use(chaiAsPromised);
 chai.should();
