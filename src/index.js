@@ -25,7 +25,6 @@ exports.deployedContract = function (web3, admin, abi, address) {
     return Promise.resolve(permissionManager);
 };
 
-
 function checkContract(permissionManager) {
     if (!permissionManager.abi) {
         throw new Error('abi must not be null');
