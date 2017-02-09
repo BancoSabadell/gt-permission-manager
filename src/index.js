@@ -12,14 +12,17 @@ exports.contracts = {
 exports.deployContract = function (web3, admin, gas) {
     const deployer = new Deployer(web3, {sources: exports.contracts}, 0);
     return deployer.deploy('PermissionManager', [], { from: admin, gas: gas })
-        .then(permissionManager => checkContract(permissionManager));
+        .then(permissionManager => {
+            checkContract(permissionManager);
+            return permissionManager;
+        });
 };
 
 exports.deployedContract = function (web3, admin, abi, address) {
     const permissionManager = web3.eth.contract(abi).at(address);
     Promise.promisifyAll(permissionManager);
-    return Promise.resolve(permissionManager)
-        .then(permissionManager => checkContract(permissionManager));
+    checkContract(permissionManager);
+    return Promise.resolve(permissionManager);
 };
 
 
@@ -35,6 +38,4 @@ function checkContract(permissionManager) {
     if (typeof permissionManager.isNetworkAdminAsync === "undefined") {
         throw new Error('contract has not been properly deployed');
     }
-
-    return permissionManager;
 }
