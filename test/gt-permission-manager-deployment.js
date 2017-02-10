@@ -35,7 +35,7 @@ describe('PermissionManager deployment', function () {
 
     describe('deployed', () => {
         it('should be fulfilled', () => {
-            return GtPermissionManager.deployedContract(web3, admin, permissionManager.abi,
+            return GtPermissionManager.deployedContract(web3, permissionManager.abi,
                 permissionManager.address);
         });
     });

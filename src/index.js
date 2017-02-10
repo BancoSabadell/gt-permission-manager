@@ -18,7 +18,7 @@ exports.deployContract = function (web3, admin, gas) {
         });
 };
 
-exports.deployedContract = function (web3, admin, abi, address) {
+exports.deployedContract = function (web3, abi, address) {
     const permissionManager = web3.eth.contract(abi).at(address);
     Promise.promisifyAll(permissionManager);
     checkContract(permissionManager);
